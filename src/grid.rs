@@ -1,5 +1,5 @@
 use crate::app::Options;
-use crate::filesystem::File;
+use crate::filesystem::{File, FileType};
 use term_grid::{Direction, Filling, Grid, GridOptions};
 
 fn grid() -> Grid {
@@ -17,7 +17,10 @@ fn format_file(file: &File, ctx: &Options) -> Vec<String> {
         human: readable, ..
     } = ctx;
     let icon = if file.readonly { LOCK } else { OPEN_LOCK };
-    let name = format!("{} {}", icon, file.name.to_str().unwrap());
+    let name = match file.file_type {
+        FileType::File => format!("{} {}", icon, file.name.to_str().unwrap()),
+        FileType::Directory => format!("{} {}/", icon, file.name.to_str().unwrap()),
+    };
     let size = if *readable {
         format!("{}", file.readable())
     } else {

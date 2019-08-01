@@ -35,7 +35,7 @@ impl<'a> App<'a> {
         let Options { dir, .. } = self.ctx;
         let files = read_dir(dir, self.ctx)?;
         let grid = display_files(files, self.ctx);
-        println!("{}", grid.fit_into_width(54).unwrap());
+        println!("{}", grid.fit_into_width(50).unwrap());
         Ok(())
     }
 }
