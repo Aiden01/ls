@@ -31,7 +31,11 @@ fn format_file(file: &File, ctx: &Options) -> Vec<String> {
 
 pub fn display_files(files: Vec<File>, ctx: &Options) -> Grid {
     let mut grid = grid();
-    let header = vec![String::from("Name"), String::from("Size"), String::from("Path")];
+    let header = vec![
+        String::from("Name"),
+        String::from("Size"),
+        String::from("Path"),
+    ];
     let files = files.iter().flat_map(|file| format_file(file, ctx));
     header
         .into_iter()

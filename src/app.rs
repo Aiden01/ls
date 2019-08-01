@@ -3,7 +3,7 @@ use std::path::PathBuf;
 use structopt::StructOpt;
 
 use crate::filesystem::read_dir;
-use crate::grid::{display_files};
+use crate::grid::display_files;
 
 /// ls clone written in Rust
 #[derive(Debug, StructOpt)]
