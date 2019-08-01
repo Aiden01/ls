@@ -32,7 +32,7 @@ impl<'a> App<'a> {
     }
 
     pub fn run(&self) -> Result<(), IOError> {
-        let Options { dir, all, .. } = self.ctx;
+        let Options { dir, .. } = self.ctx;
         let files = read_dir(dir, self.ctx)?;
         let grid = display_files(files, self.ctx);
         println!("{}", grid.fit_into_width(54).unwrap());

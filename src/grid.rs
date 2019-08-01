@@ -17,7 +17,7 @@ fn format_file(file: &File, ctx: &Options) -> Vec<String> {
         human: readable, ..
     } = ctx;
     let icon = if file.readonly { LOCK } else { OPEN_LOCK };
-    let name = format!("{} {:?}", icon, file.name);
+    let name = format!("{} {}", icon, file.name.to_str().unwrap());
     let size = if *readable {
         format!("{}", file.readable())
     } else {

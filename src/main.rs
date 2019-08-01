@@ -10,5 +10,7 @@ use app::{App, Options};
 fn main() {
     let options = Options::from_args();
     let app = App::new(&options);
-    app.run();
+    if let Err(e) = app.run() {
+        println!("{}", e);
+    };
 }

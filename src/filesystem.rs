@@ -47,8 +47,8 @@ impl File {
     pub fn readable(&self) -> Size {
         let size = self.bytes;
         match size {
-            _ if size >= 1000000000 => Size::Gb(size / 1000000000),
-            _ if size >= 1000000 => Size::Mb(size / 1000000),
+            _ if size >= 1_000_000_000 => Size::Gb(size / 1_000_000_000),
+            _ if size >= 1_000_000 => Size::Mb(size / 1_000_000),
             _ if size >= 1000 => Size::Kb(size / 1000),
             _ => Size::Bytes(size),
         }
@@ -56,7 +56,7 @@ impl File {
 }
 
 // Returns the information of the file
-pub fn get_file_info(file: Result<DirEntry>, ctx: &Options) -> Result<File> {
+pub fn get_file_info(file: Result<DirEntry>, dir: &Path) -> Result<File> {
     let file = file?;
     let file_type = if file.file_type()?.is_dir() {
         FileType::Directory
@@ -67,7 +67,7 @@ pub fn get_file_info(file: Result<DirEntry>, ctx: &Options) -> Result<File> {
     let metadata = file.metadata()?;
 
     let name = file.file_name();
-    let path = file.path();
+    let path: PathBuf = [dir, name.as_ref()].iter().collect();
     let bytes = metadata.len();
     let readonly = metadata.permissions().readonly();
 
@@ -89,6 +89,6 @@ pub fn read_dir(path: &Path, ctx: &Options) -> Result<Vec<File>> {
     let paths = fs::read_dir(path)?;
     paths
         .filter(|file| *hidden || !is_hidden(file.as_ref().unwrap()))
-        .map(|file| get_file_info(file, ctx))
+        .map(|file| get_file_info(file, path))
         .collect()
 }
